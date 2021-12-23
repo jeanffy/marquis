@@ -1,3 +1,7 @@
+export interface MarquisConfigCache {
+  enabled?: boolean;
+}
+
 export interface MarquisConfigScripts {
   dir?: string;
   typeRoots?: string[];
@@ -26,6 +30,7 @@ export interface MarquisConfigAssets {
 }
 
 export interface MarquisConfig {
+  cache?: MarquisConfigCache;
   outputDir?: string;
   pages: MarquisConfigPages;
   styles?: MarquisConfigStyles;

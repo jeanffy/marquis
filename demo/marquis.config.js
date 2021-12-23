@@ -1,4 +1,7 @@
 const marquis = {
+  cache: {
+    enabled: false
+  },
   outputDir: 'dist',
   pages: {
     dir: 'src/pages',

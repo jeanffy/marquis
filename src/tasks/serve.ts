@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises';
 import * as path from 'path';
+import { ConsoleColors } from '../console.colors';
 import { CACHEDIR, OUTDIR, PROJDIR } from '../context';
 import { exportTemplate, promiseSpawn } from '../helper';
 
@@ -17,5 +18,5 @@ export async function serve(): Promise<void> {
     stdio: 'inherit',
     //shell:
   });
-  console.log(`Open your browser on http://localhost:8900`);
+  console.log(ConsoleColors.success(`Open your browser on http://localhost:8900`));
 }

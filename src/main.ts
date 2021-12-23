@@ -2,6 +2,7 @@
 
 import { build, clean, serve, watch } from './tasks';
 import { initContext } from './context';
+import { ConsoleColors } from './console.colors';
 
 async function main(args: string[]): Promise<void> {
   try {
@@ -21,7 +22,7 @@ async function main(args: string[]): Promise<void> {
       default: throw new Error(`Unknown command '${command}'`);
     }
   } catch (error) {
-    console.error(error);
+    console.error(ConsoleColors.error(JSON.stringify(error)));
   } finally {
     //await fs.rm(TMPDIR, { force: true, recursive: true });
   }

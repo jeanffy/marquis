@@ -9,6 +9,6 @@ export async function buildInit(): Promise<void> {
 
   logAction(`Cleaning outputDir '${OUTDIR}'`);
 
-  await fs.rm(OUTDIR, { force: true, recursive: true });
+  //await fs.rm(OUTDIR, { force: true, recursive: true });
   await fs.mkdir(OUTDIR, { recursive: true });
 }

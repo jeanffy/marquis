@@ -1,5 +1,5 @@
 import { CONFIG, OUTDIR } from '../../context';
-import { exportTemplate, logAction } from '../../helper';
+import { exportTemplate, logAction, logActionProgress } from '../../helper';
 import { GeneratedPage } from './build-pages';
 
 export async function buildIndexPhp(pages: GeneratedPage[]): Promise<void> {
@@ -9,4 +9,6 @@ export async function buildIndexPhp(pages: GeneratedPage[]): Promise<void> {
     defaultPage: CONFIG.pages.default,
     pages: pages.map(p => p.name)
   });
+
+  logActionProgress('Emitted index.php');
 }

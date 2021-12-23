@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git@jeanffy:jeanffy/marquis.git"
+    "url": "git@github.com:jeanffy/marquis.git"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:install": "cd demo && npm install",
     "demo:build": "cd demo && npm run build",
+    "demo:clean": "cd demo && npm run clean",
     "demo:watch": "cd demo && npm run watch",
     "demo:serve": "cd demo && npm run serve"
   },

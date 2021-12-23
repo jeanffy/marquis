@@ -4,16 +4,21 @@ import * as fsOLD from 'fs';
 import * as path from 'path';
 import * as twig from 'twig';
 import { LIBDIR } from './context';
+import { ConsoleColors } from './console.colors';
 
 let actionId = 1;
 
 export function logAction(message: string): void {
-  console.log(`[${String(actionId).padStart(2, '0')}] ${message}`);
+  console.log(ConsoleColors.info(`[${String(actionId).padStart(2, '0')}] ${message}`));
   actionId++;
 }
 
-export function logActionProgress(message: string): void {
-  console.log(`     ${message}`);
+export function logActionProgress(message: string, notImportant = false): void {
+  if (notImportant) {
+    console.log(ConsoleColors.notice(`     ${message}`));
+  } else {
+    console.log(ConsoleColors.success(`     ${message}`));
+  }
 }
 
 export function twigRenderFilePromise(templatePath: string, options: twig.RenderOptions): Promise<string> {
@@ -106,4 +111,9 @@ export async function getFolderItems(folderPath: string, excludes?: string[]): P
 export async function fileAppend(filePath: string, toAppend: string): Promise<void> {
   const content = await fs.readFile(filePath, { encoding: 'utf-8' });
   await fs.writeFile(filePath, `${content}${toAppend}`);
+}
+
+export async function fileModifiedAt(filePath: string): Promise<Date> {
+  const stat: fsOLD.Stats = await fs.stat(filePath);
+  return stat.mtime;
 }
