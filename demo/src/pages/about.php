@@ -17,6 +17,8 @@ require_once('_utils.php');
 echo getStringFromPHP();
 ?>
 
+<div id="filled-with-script"></div>
+
 <p>
   <img src="../assets/img/sample-image.jpg"/>
 </p>

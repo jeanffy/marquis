@@ -1,7 +1,5 @@
 # Marquis
 
-Source code in https://github.com/jeanffy/marquis
-
 This tool is a web site generator (can be considered similar to [Gatsby](https://www.gatsbyjs.com) for example - but Gatsby is more powerful obviously!).
 
 I just wanted something tailored for my needs so I know that it can't be suited for everyone (and it is not planned to do so) - and I didn't want to use [Webpack](https://webpack.js.org) (but Webpack is awesome and used internally!)
