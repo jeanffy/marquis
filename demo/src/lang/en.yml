@@ -1,0 +1,16 @@
+pageTitle: Page title
+
+home:
+  title: Home page
+
+withStyle:
+  title: Page with style
+  description: This page has a style.
+  textStyled: This text is styled!
+
+withScript:
+  title: Page with script
+  description: This page has a script. See browser console to see a message from it.
+  changeColorButton: Call script to change color
+  scriptLoadMessage: Page with script loaded
+  changeColorConfirm: Color changed!

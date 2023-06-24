@@ -1,21 +1,41 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="$m.lang()" lang="$m.lang()">
 
 <head>
-	<title>Page title</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>$m.i18n(pageTitle)</title>
+  	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- #marquis:styles -->
+	<link rel="stylesheet" href="$m.url.asset(css/reset.css)"/>
+	<style>
+		.menu {
+			display: flex;
+			gap: 16px;
+			padding: 16px;
+			margin: 0;
+			list-style-type: none;
+		}
+	</style>
+	$m.page.style()
 </head>
 
 <body>
-  <p>
-  	<a href="home">Home</a> | <a href="about">About</a> | <a href="contact">Contact</a>
-	</p>
+	<ul class="menu lang">
+		<li><a href="$m.url.lang(fr)">Français</a></li>
+		<li><a href="$m.url.lang(en)">Anglais</a></li>
+	</ul>
 
-	{% block content %}{% endblock %}
+  	<ul class="menu pages">
+		<li><a href="$m.url.page(home)">Home</a></li>
+		<li><a href="$m.url.page(with-style)">With style</a></li>
+		<li><a href="$m.url.page(with-script)">With script</a></li>
+		<li><a href="$m.url.page(asset-in-style)">Asset in style</a></li>
+	</ul>
 
-	<!-- #marquis:scripts -->
+	<div class="content">
+		{% block content %}{% endblock %}
+	</div>
+
+	$m.page.script()
 </body>
 
 </html>

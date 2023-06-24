@@ -5,12 +5,9 @@
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
-  "main": "noop.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "marquis build",
-    "clean": "marquis clean",
-    "watch": "marquis watch",
     "serve": "marquis serve"
   },
   "dependencies": {

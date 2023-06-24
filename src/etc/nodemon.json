@@ -1,5 +1,0 @@
-{
-  "watch": ["src"],
-  "exec": "composer run build",
-  "ext": "css,scss,jpg,png,js,ts,html,ini,php,htaccess"
-}

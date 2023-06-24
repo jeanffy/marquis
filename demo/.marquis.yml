@@ -1,0 +1,7 @@
+i18n:
+  availableLanguages:
+    - fr
+    - en
+  defaultLang: fr
+pages:
+  defaultPage: home

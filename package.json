@@ -1,6 +1,6 @@
 {
   "name": "marquis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "repository": {
     "type": "git",
@@ -9,32 +9,28 @@
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
-  "main": "lib/main.js",
+  "type": "module",
   "bin": {
-    "marquis": "lib/main.js"
+    "marquis": "lib/marquis.mjs"
   },
   "scripts": {
     "build": "tsc --incremental",
-    "postbuild": "ncp src/templates lib/templates",
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:install": "cd demo && npm install",
     "demo:build": "cd demo && npm run build",
-    "demo:clean": "cd demo && npm run clean",
-    "demo:watch": "cd demo && npm run watch",
     "demo:serve": "cd demo && npm run serve"
   },
   "dependencies": {
-    "sass": "1.54.4",
-    "ncp": "2.0.0",
-    "ts-loader": "9.3.1",
-    "twig": "1.15.4",
-    "webpack": "5.74.0",
-    "webpack-cli": "4.10.0"
+    "js-yaml": "4.1.0",
+    "lodash": "4.17.21",
+    "sass": "1.63.4",
+    "twig": "1.16.0"
   },
   "devDependencies": {
-    "@types/ncp": "2.0.5",
-    "@types/node": "18.7.6",
+    "@types/js-yaml": "4.0.5",
+    "@types/lodash": "4.14.195",
+    "@types/node": "20.3.1",
     "@types/twig": "1.12.9",
-    "typescript": "4.7.4"
+    "typescript": "5.1.3"
   }
 }
