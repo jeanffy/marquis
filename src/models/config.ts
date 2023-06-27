@@ -12,6 +12,12 @@ export const INPUT_SCRIPT_NAME_SUFFIX = 'script.js';
 
 export const OUTPUT_HTACCESS_NAME = '.htaccess';
 
+export interface ConfigAdditional {
+  baseDir: string;
+  path: string;
+  downloadable?: boolean;
+}
+
 // interface for user configuration through .marquis.yml
 export interface Config {
   i18n: {
@@ -30,6 +36,10 @@ export interface Config {
     outputAssetsFolderName: string;
     inputAssetsDir: string;
     outputAssetsDir: string;
+  };
+  additionals: {
+    folders: ConfigAdditional[];
+    files: ConfigAdditional[];
   };
   output: {
     rootOutputDir: string;

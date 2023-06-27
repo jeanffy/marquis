@@ -2,6 +2,8 @@ pageTitle: Page title
 
 home:
   title: Home page
+  description: This page is the default one, and thus does not appear in the URL.
+  imageBelow: 'Below is an image loaded from assets:'
 
 withStyle:
   title: Page with style

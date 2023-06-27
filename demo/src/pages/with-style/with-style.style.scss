@@ -1,3 +1,6 @@
+@import '../../common/scss/global';
+@import '../../common/scss/vars';
+
 p.red {
-  color: red;
+  color: $color;
 }

@@ -20,7 +20,6 @@ function replaceTag(input: string, tag: string, replaceFn: (tagArg: string) => s
   return output;
 }
 
-
 export async function replaceI18N(i18n: I18N, input: string): Promise<string> {
   return replaceTag(input, I18N_TAG, (tradPath: string): string => {
     const trad = lodash.get(i18n, tradPath);
@@ -61,6 +60,13 @@ export async function replaceAssetUrl(config: Config, input: string): Promise<st
 export async function replaceAssetUrlForStyle(config: Config, page: Page, input: string): Promise<string> {
   return replaceTag(input, URL_ASSET_TAG, (p: string): string => {
     const relPath = path.relative(page.outputDir, path.join(config.assets.outputAssetsDir, p));
+    return relPath;
+  });
+}
+
+export async function replaceAssetUrlForStyleNew(config: Config, pageOutputDir: string, input: string): Promise<string> {
+  return replaceTag(input, URL_ASSET_TAG, (p: string): string => {
+    const relPath = path.relative(pageOutputDir, path.join(config.assets.outputAssetsDir, p));
     return relPath;
   });
 }

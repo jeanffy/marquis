@@ -1,19 +1,15 @@
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
-import { Config,  OUTPUT_HTACCESS_NAME } from './models/config.js';
-import { Page } from './models/page.js';
+import { Config,  OUTPUT_HTACCESS_NAME } from '../models/config.js';
+import { Page } from '../models/page.js';
 
 function getUrlPageFullName(lang: string, pageName: string): string {
   const items = [lang, pageName].filter(i => i !== '' && i !== undefined && i !== null);
   return items.join('/');
 }
 
-function getPhysicalOutputPageFullName(folderName: string, lang: string, pageName: string): string {
-  return `${folderName}/${lang}/${pageName}`;
-}
-
 // https://htaccess.madewithlove.com
-export default async function createHtAccess(config: Config, pages: Page[]): Promise<void> {
+export default async function buildHtAccess(config: Config, pages: Page[]): Promise<void> {
   const lines: string[] = [
     'Options -Indexes',
     'Options -MultiViews',
@@ -30,21 +26,47 @@ export default async function createHtAccess(config: Config, pages: Page[]): Pro
     'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,END]',
     '',
     // let assets go through
+    '# assets',
     `RewriteRule ^${config.assets.outputAssetsFolderName}/(.*)$ ${config.assets.outputAssetsFolderName}/$1 [NC,END]`,
     '',
   ];
 
+  const downloadableAdditionalFolders = config.additionals.folders.filter(a => a.downloadable === true);
+  if (downloadableAdditionalFolders.length > 0) {
+    lines.push('# additional folders');
+    for (const folder of downloadableAdditionalFolders) {
+      lines.push(`RewriteRule ^${folder.path}/(.*)$ ${folder.path}/$1 [NC,END]`);
+    }
+    lines.push('');
+  }
+
+  const downloadableAdditionalFiles = config.additionals.files.filter(a => a.downloadable === true);
+  if (downloadableAdditionalFiles.length > 0) {
+    lines.push('# additional files');
+    for (const file of downloadableAdditionalFiles) {
+      lines.push(`RewriteRule ^${file.path}$ ${file.path} [NC,END]`);
+    }
+    lines.push('');
+  }
+
   // handling all pages php, css, js
   for (const lang of config.i18n.availableLanguages) {
-    for (const page of pages) {
-      const langUrl = lang === config.i18n.defaultLang && config.i18n.invisibleDefaultLang ? '' : lang;
+    lines.push(
+      `# ${lang}`,
+      '',
+      );
+    const langUrl = lang === config.i18n.defaultLang && config.i18n.invisibleDefaultLang ? '' : lang;
+
+    const pagesForLang = pages.filter(p => p.lang === lang);
+    for (const page of pagesForLang) {
       const pageUrl = page.invisible ? '' : page.name;
-      const physicalPageFullName = getPhysicalOutputPageFullName(config.pages.outputPagesFolderName, lang, page.name);
       lines.push(
-        `RewriteRule ^${physicalPageFullName}\.(css|js)$ ${physicalPageFullName}.$1 [NC,END]`,
-        `RewriteRule ^${getUrlPageFullName(langUrl, pageUrl)}$ ${physicalPageFullName}.php [NC,END]`,
+        `# ${page.name}`,
+        `RewriteRule ^${page.outputRelativeNameWithoutExt}\.(css|js)$ ${page.outputRelativeNameWithoutExt}.$1 [NC,END]`,
+        `RewriteRule ^${getUrlPageFullName(langUrl, pageUrl)}$ ${page.outputRelativeNameWithoutExt}.php [NC,END]`,
       );
     }
+
     lines.push('');
   }
 

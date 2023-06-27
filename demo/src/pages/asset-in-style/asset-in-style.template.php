@@ -1,4 +1,4 @@
-{% extends '../_skeleton.twig' %}
+{% extends '../../common/twig/_skeleton.twig' %}
 {% block content %}
 
 {% endblock %}

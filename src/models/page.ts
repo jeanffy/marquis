@@ -15,6 +15,7 @@ export interface Page {
   name: string;
   inputDir: string;
   outputDir: string;
+  outputRelativeNameWithoutExt: string;
   template: PageElement;
   style: PageElement;
   script: PageElement;
@@ -26,7 +27,7 @@ export async function createPage(config: Config, i18n: I18N, lang: string, pageD
   const stylePath = path.join(pageDir, pageName, `${pageName}.${INPUT_STYLE_NAME_SUFFIX}`);
   const scriptPath = path.join(pageDir, pageName, `${pageName}.${INPUT_SCRIPT_NAME_SUFFIX}`);
 
-  const outputDir = path.join(config.output.rootOutputDir, config.pages.outputPagesFolderName, lang);
+  const outputDir = path.join(config.output.rootOutputDir, config.pages.outputPagesFolderName, `${pageName}.${lang}`);
 
   return {
     config: config,
@@ -35,9 +36,10 @@ export async function createPage(config: Config, i18n: I18N, lang: string, pageD
     name: pageName,
     inputDir: pageDir,
     outputDir: outputDir,
+    outputRelativeNameWithoutExt: path.join(config.pages.outputPagesFolderName, `${pageName}.${lang}`, pageName),
     template: {
       inputPath: (await fileExists(templatePath)) ? templatePath : undefined,
-      outputPath: path.join(outputDir, `${pageName}.php`)
+      outputPath: path.join(outputDir, `${pageName}.php`),
     },
     style: {
       inputPath: (await fileExists(stylePath)) ? stylePath : undefined,

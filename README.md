@@ -18,11 +18,5 @@ I just wanted something tailored for my needs so I know that it can't be suited 
 > Warning: this config file structure can change without any notice
 
 ```yml
-i18n:
-  availableLanguages:
-    - fr
-    - en
-  defaultLang: fr
-pages:
-  defaultPage: index
+# View `src/models/config.ts`
 ```

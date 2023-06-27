@@ -1,6 +1,6 @@
 {
   "name": "marquis",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "",
   "repository": {
     "type": "git",
@@ -31,6 +31,7 @@
     "@types/lodash": "4.14.195",
     "@types/node": "20.3.1",
     "@types/twig": "1.12.9",
+    "type-fest": "3.12.0",
     "typescript": "5.1.3"
   }
 }
