@@ -9,9 +9,6 @@ additionals:
   folders:
     - baseDir: src
       path: common/php
-    - baseDir: src
-      path: common/js
-      downloadable: true
   files:
     - baseDir: src
       path: favicon.ico
