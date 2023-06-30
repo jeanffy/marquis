@@ -20,6 +20,9 @@ export interface ConfigAdditional {
 
 // interface for user configuration through .marquis.yml
 export interface Config {
+  serve: {
+    port: number;
+  };
   i18n: {
     inputLangsDir: string;
     availableLanguages: string[];

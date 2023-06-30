@@ -1,6 +1,6 @@
 {
   "name": "marquis",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "",
   "repository": {
     "type": "git",
@@ -18,7 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:install": "cd demo && npm install",
     "demo:build": "cd demo && npm run build",
-    "demo:serve": "cd demo && npm run serve"
+    "demo:serve": "cd demo && npm run serve",
+    "demo:stop": "cd demo && npm run stop"
   },
   "dependencies": {
     "js-yaml": "4.1.0",

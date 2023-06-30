@@ -9,7 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "marquis build",
-    "serve": "marquis serve"
+    "serve": "marquis serve",
+    "stop": "marquis stop"
   },
   "dependencies": {
     "marquis": "file:.."

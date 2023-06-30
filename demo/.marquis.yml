@@ -1,3 +1,5 @@
+serve:
+  port: 8901
 i18n:
   availableLanguages:
     - fr

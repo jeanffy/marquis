@@ -12,6 +12,7 @@ I just wanted something tailored for my needs so I know that it can't be suited 
 - create a `.marquis.yml` at your project's root
 - `npx marquis build` to generate web site distribution
 - `npx marquis serve` to run a Docker container to display the web site ([Docker](https://www.docker.com/products/docker-desktop) needs to be installed)
+- `npx marquis stop` to stop previously created container (and removing it)
 
 ## Config file structure
 

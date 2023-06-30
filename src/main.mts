@@ -1,6 +1,7 @@
 import { ConsoleColors } from './console-colors.mjs';
 import build from './commands/build.mjs';
 import { serve } from './commands/serve.mjs';
+import { stop } from './commands/stop.mjs';
 
 async function main(): Promise<void> {
   try {
@@ -14,6 +15,7 @@ async function main(): Promise<void> {
     switch (command) {
       case 'build': await build(); break;
       case 'serve': await serve(); break;
+      case 'stop': await stop(); break;
       default: throw new Error(`Unknown command '${command}'`);
     }
   } catch (error) {
