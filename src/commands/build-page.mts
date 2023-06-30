@@ -42,7 +42,7 @@ export default async function buildPage(params: BuildPageParams): Promise<Page> 
 
     const styleInstruction = `${STYLE_TAG}()`;
     if (res.indexOf(styleInstruction) !== -1) {
-      if (page.style.outputPath !== undefined) {
+      if (page.style.inputPath !== undefined) {
         const href = page.style.outputPath.slice(params.config.output.rootOutputDir.length + 1);
         res = res.replace(styleInstruction, `<link rel="stylesheet" href="/${href}"/>`);
       } else {
@@ -52,7 +52,7 @@ export default async function buildPage(params: BuildPageParams): Promise<Page> 
 
     const scriptInstruction = `${SCRIPT_TAG}()`;
     if (res.indexOf(scriptInstruction) !== -1) {
-      if (page.script.outputPath !== undefined) {
+      if (page.script.inputPath !== undefined) {
         const src = page.script.outputPath.slice(params.config.output.rootOutputDir.length + 1);
         res = res.replace(scriptInstruction, `<script src="/${src}"></script>`);
       } else {
