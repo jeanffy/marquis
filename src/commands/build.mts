@@ -8,6 +8,7 @@ import buildPage from './build-page.mjs';
 import buildHtAccess from './build-htaccess.mjs';
 import { getConfig } from '../core.mjs';
 import { compileScss } from '../utils.mjs';
+import { replaceAssetUrlForStyle } from '../replace.mjs';
 
 export default async function build(): Promise<void> {
   const config = await getConfig();
@@ -63,7 +64,8 @@ export default async function build(): Promise<void> {
     } else {
       const parsed = path.parse(itemPathOutput);
       if (parsed.ext === '.scss') {
-        const output = await compileScss(itemPathInput);
+        let output = await compileScss(itemPathInput);
+        output = await replaceAssetUrlForStyle(config, parsed.dir, output);
         await fs.writeFile(path.join(parsed.dir, `${parsed.name}.css`), output, { encoding: 'utf-8' });
       } else {
         await fs.copyFile(itemPathInput, itemPathOutput);
