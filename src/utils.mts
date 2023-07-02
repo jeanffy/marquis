@@ -1,6 +1,9 @@
 import { CommonSpawnOptions, ExecOptions, exec, spawn } from 'node:child_process';
 import fs from 'node:fs/promises';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import util from 'node:util';
+import * as sass from 'sass';
 import twig from 'twig';
 
 interface ErrorWithCode {
@@ -89,4 +92,23 @@ export async function execWithoutCapture(command: string, options?: shellHelperE
       reject(err);
     });
   });
+}
+
+export async function compileScss(inputPath: string): Promise<string> {
+  const scssContent = await fs.readFile(inputPath, { encoding: 'utf-8' });
+  let res = sass.compileString(scssContent, {
+    style: 'compressed',
+    importers: [
+      {
+        findFileUrl(url: string): URL {
+          // if page.style.inputPath = 'src/pages/home/home.style.scss' -> styleDir = 'src/pages/home'
+          const styleDir = path.parse(inputPath).dir;
+          // if url = '../../styles/vars' -> urlResolved = 'src/styles/vars'
+          const urlResolved = path.resolve(path.join(styleDir, url));
+          return new URL(pathToFileURL(urlResolved));
+        }
+      }
+    ]
+  });
+  return res.css;
 }

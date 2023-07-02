@@ -7,6 +7,7 @@ import { I18N } from '../models/i18n.mjs';
 import buildPage from './build-page.mjs';
 import buildHtAccess from './build-htaccess.mjs';
 import { getConfig } from '../core.mjs';
+import { compileScss } from '../utils.mjs';
 
 export default async function build(): Promise<void> {
   const config = await getConfig();
@@ -49,15 +50,32 @@ export default async function build(): Promise<void> {
   // assets
 
   ConsoleColors.info(`Assets: ${config.assets.inputAssetsDir} -> ${config.assets.outputAssetsDir}`);
-  await fs.cp(path.join('src', 'assets'), path.join('dist', 'assets'), { recursive: true });
   await fs.mkdir(config.assets.outputAssetsDir, { recursive: true });
-  await fs.cp(config.assets.inputAssetsDir, config.assets.outputAssetsDir, { recursive: true });
+  const assetItems = await fs.readdir(config.assets.inputAssetsDir, { recursive: true, withFileTypes: true });
+  for (const assetItem of assetItems) {
+    let itemPathInput = path.join(assetItem.path, assetItem.name);
+    // if config.assets.inputAssetsDir = 'src/assets' and assetItem.path = 'src/assets/foo/bar/baz' (folder) -> 'foo/bar/baz'
+    // if config.assets.inputAssetsDir = 'src/assets' and assetItem.path = 'src/assets/foo/bar/dummy.css' (file) -> 'foo/bar/dummy.css'
+    let itemPathOutput = itemPathInput.substring(config.assets.inputAssetsDir.length + 1);
+    itemPathOutput = path.join(config.assets.outputAssetsDir, itemPathOutput);
+    if (assetItem.isDirectory()) {
+      await fs.mkdir(itemPathOutput, { recursive: true });
+    } else {
+      const parsed = path.parse(itemPathOutput);
+      if (parsed.ext === '.scss') {
+        const output = await compileScss(itemPathInput);
+        await fs.writeFile(path.join(parsed.dir, `${parsed.name}.css`), output, { encoding: 'utf-8' });
+      } else {
+        await fs.copyFile(itemPathInput, itemPathOutput);
+      }
+    }
+  }
 
   // lang
 
   const langInputPath = path.join('src', 'lang');
   const langOutputPath = path.join('dist', 'lang');
-  ConsoleColors.info(`Lang: ${config.assets.inputAssetsDir} -> ${config.assets.outputAssetsDir}`);
+  ConsoleColors.info(`Lang: ${langInputPath} -> ${langOutputPath}`);
   await fs.cp(langInputPath, langOutputPath, { recursive: true });
 
   // additionals

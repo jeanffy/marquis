@@ -1,13 +1,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import * as sass from 'sass';
-import esbuild from 'esbuild';
-import typescript from 'typescript';
 import { Config, SCRIPT_TAG, STYLE_TAG } from '../models/config.mjs';
 import { I18N } from '../models/i18n.mjs';
-import { pathToFileURL } from 'node:url';
 import { replaceI18N, replaceLang, replaceLangUrl, replacePageUrl, replaceAssetUrl, replaceAssetUrlForStyle } from '../replace.mjs';
-import { twigRenderFilePromise } from '../utils.mjs';
+import { compileScss, twigRenderFilePromise } from '../utils.mjs';
 import { Page, createPage } from '../models/page.mjs';
 import { ConsoleColors } from '../console-colors.mjs';
 
@@ -69,21 +65,7 @@ export default async function buildPage(params: BuildPageParams): Promise<Page> 
   if (page.style.inputPath !== undefined) {
     ConsoleColors.notice(`   style: ${page.template.inputPath}`);
 
-    const scssContent = await fs.readFile(page.style.inputPath, { encoding: 'utf-8' });
-    let res = sass.compileString(scssContent, {
-      importers: [
-        {
-          findFileUrl(url: string): URL {
-            // if page.style.inputPath = 'src/pages/home/home.style.scss' -> styleDir = 'src/pages/home'
-            const styleDir = path.parse(page.style.inputPath!).dir;
-            // if url = '../../styles/vars' -> urlResolved = 'src/styles/vars'
-            const urlResolved = path.resolve(path.join(styleDir, url));
-            return new URL(pathToFileURL(urlResolved));
-          }
-        }
-      ]
-    });
-    let output = res.css;
+    let output = await compileScss(page.style.inputPath);
     output = await replaceAssetUrlForStyle(params.config, pageOutDir, output);
     await fs.writeFile(page.style.outputPath, output, { encoding: 'utf-8' });
   }
