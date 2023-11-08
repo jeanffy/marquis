@@ -10,7 +10,25 @@ import { getConfig } from '../core.mjs';
 import { compileScss } from '../utils.mjs';
 import { replaceAssetUrlForStyle } from '../replace.mjs';
 
-export default async function build(): Promise<void> {
+export default async function build(args: string[]): Promise<void> {
+  if (args.length > 1) {
+    throw new Error('Too many arguments to build command');
+  }
+
+  let isProd = false;
+  if (args.length === 1) {
+    const argValue = args[0];
+    if (argValue !== '--prod') {
+      throw new Error(`Unknwon build command argument '${argValue}'`);
+    } else {
+      isProd = true;
+    }
+  }
+
+  if (isProd) {
+    ConsoleColors.warning('Building for production');
+  }
+
   const config = await getConfig();
 
   await fs.rm(config.output.rootOutputDir, { recursive: true, force: true });
@@ -98,5 +116,5 @@ export default async function build(): Promise<void> {
 
   // htaccess
 
-  await buildHtAccess(config, createdPages);
+  await buildHtAccess(config, createdPages, { isProd: isProd });
 }

@@ -12,8 +12,9 @@ async function main(): Promise<void> {
     }
 
     const command = args[0];
+    const commandArgs = args.slice(1);
     switch (command) {
-      case 'build': await build(); break;
+      case 'build': await build(commandArgs); break;
       case 'serve': await serve(); break;
       case 'stop': await stop(); break;
       default: throw new Error(`Unknown command '${command}'`);

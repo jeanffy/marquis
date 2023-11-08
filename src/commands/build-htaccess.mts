@@ -9,8 +9,12 @@ function getUrlPageFullName(lang: string, pageName: string): string {
   return items.join('/');
 }
 
+export interface BuildHtAccessOptions {
+  isProd: boolean;
+}
+
 // https://htaccess.madewithlove.com
-export default async function buildHtAccess(config: Config, pages: Page[]): Promise<void> {
+export default async function buildHtAccess(config: Config, pages: Page[], options: BuildHtAccessOptions): Promise<void> {
   ConsoleColors.info('Creating htaccess');
 
   const lines: string[] = [
@@ -22,17 +26,25 @@ export default async function buildHtAccess(config: Config, pages: Page[]): Prom
     '',
     'RewriteEngine On',
     '',
+  ];
+
+  if (options.isProd) {
     // http -> https redirection
-    'RewriteCond %{SERVER_PORT} 80',
-    'RewriteCond %{HTTPS} off',
-    'RewriteCond %{HTTP:X-Forwarded-Proto} !https',
-    'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,END]',
-    '',
-    // let assets go through
+    lines.push(...[
+      'RewriteCond %{SERVER_PORT} 80',
+      'RewriteCond %{HTTPS} off',
+      'RewriteCond %{HTTP:X-Forwarded-Proto} !https',
+      'RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,END]',
+      '',
+    ]);
+  }
+
+  // let assets go through
+  lines.push(...[
     '# assets',
     `RewriteRule ^${config.assets.outputAssetsFolderName}/(.*)$ ${config.assets.outputAssetsFolderName}/$1 [NC,END]`,
     '',
-  ];
+  ]);
 
   const downloadableAdditionalFolders = config.additionals.folders.filter(a => a.downloadable === true);
   if (downloadableAdditionalFolders.length > 0) {

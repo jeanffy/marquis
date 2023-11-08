@@ -1,6 +1,6 @@
 {
   "name": "marquis",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "",
   "repository": {
     "type": "git",
@@ -18,6 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:install": "cd demo && npm install",
     "demo:build": "cd demo && npm run build",
+    "demo:build-prod": "cd demo && npm run build -- --prod",
     "demo:serve": "cd demo && npm run serve",
     "demo:stop": "cd demo && npm run stop"
   },
