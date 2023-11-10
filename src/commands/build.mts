@@ -7,7 +7,7 @@ import { I18N } from '../models/i18n.mjs';
 import buildPage from './build-page.mjs';
 import buildHtAccess from './build-htaccess.mjs';
 import { getConfig } from '../core.mjs';
-import { compileScss } from '../utils.mjs';
+import { compileScss, emptyDirectory } from '../utils.mjs';
 import { replaceAssetUrlForStyle } from '../replace.mjs';
 
 export default async function build(args: string[]): Promise<void> {
@@ -31,8 +31,8 @@ export default async function build(args: string[]): Promise<void> {
 
   const config = await getConfig();
 
-  await fs.rm(config.output.rootOutputDir, { recursive: true, force: true });
   await fs.mkdir(config.output.rootOutputDir, { recursive: true });
+  await emptyDirectory(config.output.rootOutputDir);
 
   ConsoleColors.info(`Building in '${config.output.rootOutputDir}'`);
 

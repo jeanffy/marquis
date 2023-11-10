@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url';
 import util from 'node:util';
 import * as sass from 'sass';
 import twig from 'twig';
+import { ConsoleColors } from './console-colors.mjs';
 
 interface ErrorWithCode {
   code: string;
@@ -35,6 +36,18 @@ export async function directoryExists(dirPath: string): Promise<boolean> {
       return false;
     }
     throw error;
+  }
+}
+
+export async function emptyDirectory(dirPath: string): Promise<void> {
+  const items = await fs.readdir(dirPath, { withFileTypes: true });
+  for (const item of items) {
+    const itemPath = path.join(item.path, item.name);
+    if (item.isFile() || item.isDirectory()) {
+      await fs.rm(itemPath, { recursive: true, force: true });
+    } else {
+      ConsoleColors.warning(`${itemPath} cannot be removed`);
+    }
   }
 }
 

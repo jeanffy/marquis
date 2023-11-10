@@ -14,6 +14,15 @@ I just wanted something tailored for my needs so I know that it can't be suited 
 - `npx marquis serve` to run a Docker container to display the web site ([Docker](https://www.docker.com/products/docker-desktop) needs to be installed)
 - `npx marquis stop` to stop previously created container (and removing it)
 
+Once Docker container is running, only the build step is needed to refresh web site, so a typical workflow would be:
+
+- `npx marquis serve`
+- repeat
+  - do some coding
+  - `npx marquis build`
+  - refresh browser window
+- `npx marquis stop`
+
 ## Config file structure
 
 > Warning: this config file structure can change without any notice
