@@ -1,0 +1,12 @@
+{
+  "ignorePaths": [
+  ],
+  "ignoreWords": [
+    "enmod"
+  ],
+  "language": "en",
+  "useGitignore": true,
+  "words": [
+    "additionals"
+  ]
+}
