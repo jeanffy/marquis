@@ -3,7 +3,7 @@ import { ConsoleColors } from '../console-colors.js';
 import { getConfig, getPackageJson } from '../core.js';
 import { startContainer, stopContainer } from '../docker.js';
 
-export async function serve(): Promise<void> {
+export async function serve(_args: string[]): Promise<void> {
   const userPackageJson = await getPackageJson();
   const containerName = userPackageJson.name;
   await stopContainer(containerName);

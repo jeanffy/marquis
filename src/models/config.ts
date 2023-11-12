@@ -23,6 +23,7 @@ export interface Config {
   serve: {
     port: number;
   };
+  rootDir: string;
   i18n: {
     inputLangsDir: string;
     availableLanguages: string[];

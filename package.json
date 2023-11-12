@@ -1,6 +1,6 @@
 {
   "name": "marquis",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "",
   "repository": {
     "type": "git",
@@ -15,7 +15,7 @@
     "npm": "^9"
   },
   "bin": {
-    "marquis": "lib/marquis.js"
+    "marquis": "lib/src/marquis.js"
   },
   "scripts": {
     "build": "tsc",
@@ -34,14 +34,17 @@
   "dependencies": {
     "js-yaml": "4.1.0",
     "lodash": "4.17.21",
+    "minimist": "1.2.8",
     "sass": "1.69.5",
-    "twig": "1.16.0"
+    "twig": "1.16.0",
+    "watcher": "2.3.0"
   },
   "devDependencies": {
     "@jest/globals": "29.7.0",
     "@types/jest": "29.5.8",
     "@types/js-yaml": "4.0.9",
     "@types/lodash": "4.14.201",
+    "@types/minimist": "1.2.5",
     "@types/node": "20.9.0",
     "@types/twig": "1.12.15",
     "@typescript-eslint/eslint-plugin": "6.10.0",

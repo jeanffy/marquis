@@ -6,6 +6,7 @@ describe('replaceAssetUrl', () => {
     serve: {
       port: 0,
     },
+    rootDir: 'src',
     i18n: {
       inputLangsDir: '',
       availableLanguages: ['la', 'lb'],

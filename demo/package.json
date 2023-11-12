@@ -8,7 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "marquis build",
+    "build": "marquis build --watch",
     "serve": "marquis serve",
     "stop": "marquis stop"
   },

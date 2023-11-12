@@ -1,8 +1,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import jsYaml from 'js-yaml';
+import minimist from 'minimist';
+import Watcher from 'watcher';
 import { ConsoleColors } from '../console-colors.js';
 import { getConfig } from '../core.js';
+import { Config } from '../models/config.js';
 import { I18N } from '../models/i18n.js';
 import { Page } from '../models/page.js';
 import { replaceAssetUrlForStyle } from '../replace.js';
@@ -10,26 +13,54 @@ import { compileScss, emptyDirectory } from '../utils.js';
 import buildHtAccess from './build-htaccess.js';
 import buildPage from './build-page.js';
 
+interface BuildArgsDef {
+  production?: boolean;
+  watch?: boolean;
+}
+
+class BuildArgs implements BuildArgsDef {
+  public production: boolean;
+  public watch: boolean;
+
+  public constructor(args: string[]) {
+    const parsedArgs = minimist(args) as BuildArgsDef;
+    this.production = parsedArgs.production === true;
+    this.watch = parsedArgs.watch === true;
+  }
+}
+
 export default async function build(args: string[]): Promise<void> {
-  if (args.length > 1) {
-    throw new Error('Too many arguments to build command');
+  const buildArgs = new BuildArgs(args);
+  const config = await getConfig();
+
+  if (buildArgs.watch) {
+    const watcher = new Watcher(config.rootDir, {
+      ignoreInitial: true,
+      recursive: true
+    });
+    watcher.on('all', (_event, _targetPath, _targetPathNext) => {
+      ConsoleColors.warning('*** File change detected, rebuilding...');
+      setTimeout(() => {
+        doBuild(buildArgs, config).then(() => {
+          ConsoleColors.warning('*** Watching for changes');
+        }).catch(error => {
+          ConsoleColors.error('*** Error detected', error);
+        });
+      }, 500);
+    });
   }
 
-  let isProd = false;
-  if (args.length === 1) {
-    const argValue = args[0];
-    if (argValue !== '--prod') {
-      throw new Error(`Unknown build command argument '${argValue}'`);
-    } else {
-      isProd = true;
-    }
-  }
+  await doBuild(buildArgs, config);
 
-  if (isProd) {
+  if (buildArgs.watch) {
+    ConsoleColors.warning('*** Watching for changes');
+  }
+}
+
+async function doBuild(args: BuildArgs, config: Config): Promise<void> {
+  if (args.production) {
     ConsoleColors.warning('Building for production');
   }
-
-  const config = await getConfig();
 
   await fs.mkdir(config.output.rootOutputDir, { recursive: true });
   await emptyDirectory(config.output.rootOutputDir);
@@ -116,5 +147,7 @@ export default async function build(args: string[]): Promise<void> {
 
   // htaccess
 
-  await buildHtAccess(config, createdPages, { isProd: isProd });
+  await buildHtAccess(config, createdPages, {
+    production: args.production
+  });
 }

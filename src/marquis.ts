@@ -1,4 +1,7 @@
 #!/usr/bin/env node
 import path from 'node:path';
+import url from 'node:url';
 
-await import(path.join('..', 'lib', 'main.mjs'));
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+
+await import(path.join(__dirname, 'main.js'));

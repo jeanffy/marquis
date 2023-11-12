@@ -10,7 +10,7 @@ function getUrlPageFullName(lang: string, pageName: string): string {
 }
 
 export interface BuildHtAccessOptions {
-  isProd: boolean;
+  production: boolean;
 }
 
 // https://htaccess.madewithlove.com
@@ -32,7 +32,7 @@ export default async function buildHtAccess(
     '',
   ];
 
-  if (options.isProd) {
+  if (options.production) {
     // http -> https redirection
     lines.push(
       ...[

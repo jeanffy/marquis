@@ -18,10 +18,10 @@ async function main(): Promise<void> {
         await build(commandArgs);
         break;
       case 'serve':
-        await serve();
+        await serve(commandArgs);
         break;
       case 'stop':
-        await stop();
+        await stop(commandArgs);
         break;
       default:
         throw new Error(`Unknown command '${command}'`);

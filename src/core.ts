@@ -15,6 +15,7 @@ export async function getConfig(): Promise<Config> {
     serve: {
       port: configUser.serve?.port ?? 8080,
     },
+    rootDir: 'src',
     i18n: {
       inputLangsDir: 'src/lang',
       availableLanguages: configUser.i18n?.availableLanguages ?? ['en', 'fr'],
