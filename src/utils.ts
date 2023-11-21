@@ -1,10 +1,12 @@
 import { CommonSpawnOptions, exec, ExecOptions, spawn } from 'node:child_process';
+import fsNoPromise from 'node:fs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import util from 'node:util';
-import sass from 'sass';
+import * as sass from 'sass';
 import twig from 'twig';
+import webpack from 'webpack';
 import { ConsoleColors } from './console-colors.js';
 
 interface ErrorWithCode {
@@ -124,4 +126,52 @@ export async function compileScss(inputPath: string): Promise<string> {
     ],
   });
   return res.css;
+}
+
+export async function compileTypeScript(inputPath: string, outputPath: string): Promise<string> {
+  const parsed = path.parse(outputPath);
+  return new Promise((resolve, reject) => {
+    const compiler = webpack({
+      target: 'web',
+      entry: path.resolve(inputPath),
+      mode: 'production',
+      module: {
+        rules: [
+          {
+            test: /\.([cm]?ts|tsx)$/,
+            use: 'ts-loader',
+            exclude: /node_modules/,
+          },
+        ],
+      },
+      resolve: {
+        extensions: ['.tsx', '.ts', '.js'],
+        extensionAlias: {
+          '.js': ['.js', '.ts'],
+          '.cjs': ['.cjs', '.cts'],
+          '.mjs': ['.mjs', '.mts'],
+        },
+      },
+      output: {
+        filename: parsed.base,
+        path: path.resolve(parsed.dir),
+      },
+    });
+
+    compiler.run((error, stats) => {
+      if (error !== undefined && error !== null) {
+        reject(error);
+      } else if (stats !== undefined && stats !== null && stats.hasErrors()) {
+        reject(stats.compilation.errors);
+      } else {
+        fsNoPromise.readFile(outputPath, { encoding: 'utf-8' }, (readError, data) => {
+          if (readError !== undefined && readError !== null) {
+            reject(readError);
+          } else {
+            resolve(data);
+          }
+        });
+      }
+    });
+  });
 }

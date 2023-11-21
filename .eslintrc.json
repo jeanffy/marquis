@@ -14,7 +14,9 @@
     "prettier"
   ],
   "ignorePatterns": [
-    "jest.config.mjs"
+    "jest.config.mjs",
+    "demo/src/**/*.js",
+    "demo/src/**/*.ts"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {

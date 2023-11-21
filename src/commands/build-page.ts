@@ -12,7 +12,7 @@ import {
   replaceLangUrl,
   replacePageUrl,
 } from '../replace.js';
-import { compileScss, twigRenderFilePromise } from '../utils.js';
+import { compileScss, compileTypeScript, twigRenderFilePromise } from '../utils.js';
 
 export interface BuildPageParams {
   config: Config;
@@ -80,9 +80,18 @@ export default async function buildPage(params: BuildPageParams): Promise<Page> 
   // script
 
   if (page.script.inputPath !== undefined) {
-    ConsoleColors.notice(`   script: ${page.template.inputPath}`);
+    ConsoleColors.notice(`   script: ${page.script.inputPath}`);
 
-    let jsContent = await fs.readFile(page.script.inputPath, { encoding: 'utf-8' });
+    let jsContent = '';
+    const extension = path.parse(page.script.inputPath).ext;
+    if (extension === '.js') {
+      jsContent = await fs.readFile(page.script.inputPath, { encoding: 'utf-8' });
+    } else if (extension === '.ts') {
+      jsContent = await compileTypeScript(page.script.inputPath, page.script.outputPath);
+    } else {
+      throw new Error(`Unrecognized script extension '${extension}'`);
+    }
+
     jsContent = replaceI18N(params.i18n, jsContent);
     await fs.writeFile(page.script.outputPath, jsContent, { encoding: 'utf-8' });
   }
