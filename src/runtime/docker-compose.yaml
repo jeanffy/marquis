@@ -1,0 +1,10 @@
+name: ${DOCKER_APP_NAME}
+services:
+  front:
+    image: php:${DOCKER_PHP_IMAGE_TAG}
+    container_name: ${DOCKER_APP_NAME}-front
+    command: /bin/bash -c 'a2enmod rewrite; apache2-foreground'
+    ports:
+      - ${DOCKER_PORT_FRONT}:80
+    volumes:
+      - ${DOCKER_DIST}:/var/www/html

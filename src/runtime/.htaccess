@@ -1,0 +1,30 @@
+# https://stackoverflow.com/a/71213246
+
+# disable directory listings (mod_autoindex)
+Options -Indexes
+# prevent mod_dir appending trailing slash to directories
+DirectorySlash Off
+
+RewriteEngine On
+
+#if:MARQUIS_BUILD_PROD
+# http -> https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE,QSA]
+#endif:MARQUIS_BUILD_PROD
+
+RewriteRule ^api/(.*)$ api/index.php?route=$1 [NC,END]
+
+RewriteRule ^assets/images/(.*)$ assets/images/$1 [NC,END]
+RewriteRule ^assets/js/(.*)$ assets/js/$1 [NC,END]
+RewriteRule ^assets/styles/(.*)$ assets/styles/$1 [NC,END]
+
+RewriteRule ^layouts/([a-z-]+)/([a-z-]+).layout.(css|js)$ layouts/$1/$2.layout.$3 [NC,END]
+
+RewriteRule ^views/_index/root.view.(css|js)$ views/_index/root.view.$1 [NC,END]
+
+RewriteRule ^views/_404/_index/_404.view.(css|js)$ views/_404/_index/_404.view.$1 [NC,END]
+RewriteRule ^views/([a-z-]+)/_index/([a-z-]+).view.(css|js)$ views/$1/_index/$2.view.$3 [NC,END]
+RewriteRule ^views/([a-z-]+)/([a-z-]+)/_index/([a-z-]+).view.(css|js)$ views/$1/$2/_index/$3.view.$4 [NC,END]
+
+RewriteRule ^.*$ index.php [NC,END]

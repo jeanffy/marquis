@@ -1,0 +1,1 @@
+{"version":3,"file":"fake-compile-scss.adapter.js","sourceRoot":"","sources":["../../../src/adapters/fake-compile-scss.adapter.ts"],"names":[],"mappings":"AAGA,MAAM,OAAO,sBAAsB;IACN;IAA3B,YAA2B,MAAc;QAAd,WAAM,GAAN,MAAM,CAAQ;IAAG,CAAC;IAEtC,KAAK,CAAC,OAAO,CAAC,SAAiB;QACpC,MAAM,WAAW,GAAG,MAAM,IAAI,CAAC,MAAM,CAAC,QAAQ,CAAC,SAAS,CAAC,CAAC;QAC1D,OAAO,WAAW,CAAC;IACrB,CAAC;CACF"}

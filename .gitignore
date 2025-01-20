@@ -1,14 +1,5 @@
-.vscode/*
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/settings.json
-!.vscode/tasks.json
-
+dist
 node_modules
 output
-
 .DS_Store
-.eslintcache
-.tscache
-*.log
-npm-info.txt
+.env
