@@ -5,7 +5,7 @@ require_once(join('/', [__DIR__, 'i18n.php']));
 class RouterView {
   public string $preferredLanguage;
   public string $lang;
-  public string $layoutDataPath;
+  public ?string $layoutDataPath;
   public string $templatePath;
   public string $dataPath;
   public string $stylePath;
@@ -48,8 +48,10 @@ function routerGetView($getViewFunc): RouterView {
       break;
     default:
       $getViewRes = $getViewFunc($requestUri);
-      $viewFolder = $getViewRes['folder'];
-      $viewName = $getViewRes['name'];
+      if ($getViewRes !== null) {
+        $viewFolder = $getViewRes['folder'];
+        $viewName = $getViewRes['name'];
+      }
   }
 
 

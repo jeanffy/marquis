@@ -12,8 +12,8 @@ export async function serveCommand(args: string[]): Promise<void> {
 
   let command = '';
   switch (args[0]) {
-    case 'up': command = `docker compose -f "${pathes.srcRuntimeDockerCompose}" up -d`; break;
-    case 'down,': command = `docker compose -f "${pathes.srcRuntimeDockerCompose}" down`; break;
+    case 'up': command = `docker compose -f "${pathes.srcRuntimeDockerCompose}" --project-directory "${pathes.rootDir}" up -d`; break;
+    case 'down': command = `docker compose -f "${pathes.srcRuntimeDockerCompose}" --project-directory "${pathes.rootDir}" down`; break;
     default:
       console.log(`Unknown arg '${args[0]}'`);
       return;

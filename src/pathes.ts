@@ -51,6 +51,8 @@ const distRuntimePhpDir = path.join(distRuntimeDir, 'php');
 const distRuntimeHtAccess = path.join(distDir, '.htaccess');
 
 export default {
+  rootDir,
+
   srcDir,
 
   srcAssetsDir,

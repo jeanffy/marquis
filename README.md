@@ -49,7 +49,7 @@ folders can be (all folders are optional):
 - `styles`: SCSS files that can be imported by any view
   - `.scss` files here that are not imported will not be included in build (files must be @import'ed in other .scss files)
   - `.css` files here are copied as-is in the build
-  - `.woff`, `.ttf` files here are copied as-is in the build
+  - `.woff`, `.woff2`, `.ttf` files here are copied as-is in the build
 
 > in `js` and `styles` folders, sub-folders are not handled
 

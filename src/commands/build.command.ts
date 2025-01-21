@@ -109,7 +109,7 @@ async function buildAssetsStylesFolder(): Promise<void> {
   await fsPort.mkdir(pathes.distAssetsStylesDir);
   const styleItems = await fsPort.readdir(pathes.srcAssetsStylesDir, { recursive: true });
   for (const styleItem of styleItems) {
-    if (['.css', '.woff', '.ttf'].includes(path.parse(styleItem.name).ext)) {
+    if (['.css', '.woff', '.woff2', '.ttf'].includes(path.parse(styleItem.name).ext)) {
       await fsPort.copyFile(path.join(pathes.srcAssetsStylesDir, styleItem.name), path.join(pathes.distAssetsStylesDir, styleItem.name));
     }
   }
