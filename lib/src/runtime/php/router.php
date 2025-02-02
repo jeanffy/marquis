@@ -35,25 +35,27 @@ function routerGetView($getViewFunc): RouterView {
     $pageLang = 'en';
   }
 
+  // prepend / if not present
   if (!str_starts_with($requestUri, '/')) {
     $requestUri = "/$requestUri";
+  }
+  // remove trailing / is any
+  if (str_ends_with($requestUri, '/') && strlen($requestUri) > 1) {
+    $requestUri = substr($requestUri, 0, -1);
   }
 
   $viewFolder = '_404';
   $viewName = '_404';
-  switch ($requestUri) {
-    case '/':
-      $viewFolder = '';
-      $viewName = 'root';
-      break;
-    default:
-      $getViewRes = $getViewFunc($requestUri);
-      if ($getViewRes !== null) {
-        $viewFolder = $getViewRes['folder'];
-        $viewName = $getViewRes['name'];
-      }
+  if ($requestUri === '/') {
+    $viewFolder = '';
+    $viewName = 'root';
+  } else {
+    $getViewRes = $getViewFunc($requestUri);
+    if ($getViewRes !== null) {
+      $viewFolder = $getViewRes['folder'];
+      $viewName = $getViewRes['name'];
+    }
   }
-
 
   $viewDataPath = "views/$viewFolder/_index/$viewName.view.php";
   $viewTemplatePath = "views/$viewFolder/_index/$viewName.view.tpl";
